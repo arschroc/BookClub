@@ -7,6 +7,11 @@ const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
 const passport = require("passport");
 
+//Load input validation
+const isEmpty = require("../../validation/is-empty");
+const validateRegisterInput = require("../../validation/register");
+const validateLoginInput = require("../../validation/login");
+
 //Test Route
 // @route   GET api/users/test
 // @desc    Tests users route
@@ -17,10 +22,17 @@ router.get("/test", (req, res) => res.json({ msg: "Users works" }));
 // @desc    Register a user
 // @access  Public
 router.post("/register", (req, res) => {
+  //Check validation
+  const errors = validateRegisterInput(req.body);
+  if (!isEmpty(errors)) {
+    return res.status(400).json(errors);
+  }
+
   User.findOne({ email: req.body.email }).then(user => {
     if (user) {
       //There is a user with entered email address
-      return res.status(400).json({ email: "Email already exists" });
+      errors.email = "Email already exists";
+      return res.status(400).json(errors);
     } else {
       const avatar = gravatar.url(req.body.email, {
         s: "200", //size
@@ -56,10 +68,17 @@ router.get("/login", (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
 
+  //Check validation
+  const errors = validateLoginInput(req.body);
+  if (!isEmpty(errors)) {
+    return res.status(400).json(errors);
+  }
+
   User.findOne({ email }).then(user => {
     //Check for user
     if (!user) {
-      return res.status(404).json({ email: "User not found" });
+      errors.email = "User not found";
+      return res.status(404).json(errors);
     }
 
     //Check password
@@ -84,7 +103,8 @@ router.get("/login", (req, res) => {
       }
       //Password does not match
       else {
-        return res.status(400).json({ password: "Password incorrect" });
+        errors.password = "Incorrect password";
+        return res.status(400).json(errors);
       }
     });
   });

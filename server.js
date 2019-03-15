@@ -21,6 +21,7 @@ mongoose
   .connect(db, { useNewUrlParser: true })
   .then(() => console.log("MongoDB Connected"))
   .catch(err => console.log(err));
+mongoose.set("useFindAndModify", false);
 
 //Basic setup test route
 app.get("/", (req, res) => res.send("Hello World"));
