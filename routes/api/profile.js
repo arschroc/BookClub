@@ -97,7 +97,7 @@ router.post(
   (req, res) => {
     const errors = {};
 
-    profile.findOne({ user: req.user.id }).then(profile => {
+    Profile.findOne({ user: req.user.id }).then(profile => {
       const newBook = {
         title: req.body.title,
         author: req.body.author,
@@ -109,6 +109,33 @@ router.post(
 
       //Add to array
       profile.booksread.unshift(newBook);
+      //save and add new experience array
+      profile.save().then(profile => res.json(profile));
+    });
+  }
+);
+
+// @route   POST api/profile/bookstoread
+// @desc    Create and add a book wanted to read to profile (wishlist)
+// @access  Private
+router.post(
+  "/bookstoread",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const errors = {};
+
+    Profile.findOne({ user: req.user.id }).then(profile => {
+      const newBook = {
+        title: req.body.title,
+        author: req.body.author,
+        publishdate: req.body.publishdate,
+        averagerating: req.body.averagerating,
+        thumbnail: req.body.thumbnail,
+        link: req.body.link
+      };
+
+      //Add to array
+      profile.bookstoread.unshift(newBook);
       //save and add new experience array
       profile.save().then(profile => res.json(profile));
     });
