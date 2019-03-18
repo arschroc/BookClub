@@ -88,4 +88,31 @@ router.post(
   }
 );
 
+// @route   POST api/profile/booksread
+// @desc    Create and add a book read to profile
+// @access  Private
+router.post(
+  "/booksread",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const errors = {};
+
+    profile.findOne({ user: req.user.id }).then(profile => {
+      const newBook = {
+        title: req.body.title,
+        author: req.body.author,
+        publishdate: req.body.publishdate,
+        averagerating: req.body.averagerating,
+        thumbnail: req.body.thumbnail,
+        link: req.body.link
+      };
+
+      //Add to array
+      profile.booksread.unshift(newBook);
+      //save and add new experience array
+      profile.save().then(profile => res.json(profile));
+    });
+  }
+);
+
 module.exports = router;
