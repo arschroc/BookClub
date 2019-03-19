@@ -88,6 +88,65 @@ router.post(
   }
 );
 
+// @route   GET api/profile/user/:user_id
+// @desc    Get profile by user id
+// @access  Public
+router.get("/user/:user_id", (req, res) => {
+  const errors = {};
+
+  Profile.findOne({ user: req.params.user_id }) //grabs id from input
+    .populate("user", ["name", "avatar"])
+    .then(profile => {
+      //Check if no profile for user id
+      if (!profile) {
+        errors.noProfile = "There is no profile for this user";
+        return res.status(404).json(errors);
+      }
+
+      res.json(profile);
+    })
+    .catch(err =>
+      res.status(404).json({ profile: "There is no profile for this user" })
+    );
+});
+
+// @route   GET api/profile/handle/:handle
+// @desc    Get profile by handle
+// @access  Public
+router.get("/handle/:handle", (req, res) => {
+  const errors = {};
+
+  Profile.findOne({ handle: req.params.handle }) //grabs by handle
+    .then(profile => {
+      //Check if no profile
+      if (!profile) {
+        errors.noProfile = "There is no profile for this user";
+        return res.status(404).json(errors);
+      }
+
+      res.json(profile);
+    })
+    .catch(err => res.status(404).json(err));
+});
+
+// @route   GET api/profile/all
+// @desc    Get all profiles
+// @access  Public
+router.get("/all", (req, res) => {
+  const errors = {};
+  Profile.find()
+    .populate("user", ["name", "avatar"])
+    .then(profiles => {
+      //If profiles is null no proifle is made yet
+      if (!profiles) {
+        errors.noprofile = "There are no profiles";
+        return res.status(404).json(errors);
+      }
+      res.json(profiles);
+    })
+    .catch(err => res.status(404).json({ profile: "There are no profiles" }));
+});
+
 // @route   POST api/profile/booksread
 // @desc    Create and add a book read to profile
 // @access  Private
@@ -138,6 +197,69 @@ router.post(
       profile.bookstoread.unshift(newBook);
       //save and add new experience array
       profile.save().then(profile => res.json(profile));
+    });
+  }
+);
+
+// @route   DELETE api/profile/booksread/:br_id
+// @desc    Delete a book read from profile
+// @access  Private
+router.delete(
+  "/booksread/:br_id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Profile.findOne({ user: req.user.id })
+      .then(profile => {
+        //Ger removal index
+        const removeIndex = profile.booksread
+          .map(item => item.id)
+          .indexOf(req.params.br_id);
+
+        //Splice out of array
+        profile.booksread.splice(removeIndex, 1);
+
+        //Save
+        profile.save().then(profile => res.json(profile));
+      })
+      .catch(err => res.status(404).json(err));
+  }
+);
+
+// @route   DELETE api/profile/bookstoread/:btr_id
+// @desc    Delete a book to read from profile
+// @access  Private
+router.delete(
+  "/bookstoread/:btr_id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Profile.findOne({ user: req.user.id })
+      .then(profile => {
+        //Ger removal index
+        const removeIndex = profile.bookstoread
+          .map(item => item.id)
+          .indexOf(req.params.brt_id);
+
+        //Splice out of array
+        profile.bookstoread.splice(removeIndex, 1);
+
+        //Save
+        profile.save().then(profile => res.json(profile));
+      })
+      .catch(err => res.status(404).json(err));
+  }
+);
+
+// @route   DELETE api/profile
+// @desc    Delete current user and profile
+// @access  Private
+router.delete(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Profile.findOneAndDelete({ user: req.user.id }).then(() => {
+      User.findOneAndDelete({ _id: req.user.id }).then(() => {
+        res.json({ sucess: true });
+      });
     });
   }
 );
