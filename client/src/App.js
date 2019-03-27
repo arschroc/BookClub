@@ -13,7 +13,8 @@ import { setCurrentUser, logoutUser } from "./actions/authActions";
 import jwt_decode from "jwt-decode";
 import Dashboard from "./components/dashboard/Dashboard";
 import PrivateRoute from "./components/common/PrivateRoute";
-import Posts from "./components/posts/Post";
+import Posts from "./components/posts/Posts";
+import Post from "./components/post/Post";
 
 //Check for token
 if (localStorage.jwtToken) {
@@ -51,6 +52,9 @@ class App extends Component {
               </Switch>
               <Switch>
                 <PrivateRoute exact path="/feed" component={Posts} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/post/:id" component={Post} />
               </Switch>
             </div>
             <Footer />
