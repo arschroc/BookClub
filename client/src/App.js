@@ -18,6 +18,7 @@ import Post from "./components/post/Post";
 import CreateProfile from "./components/create-profile/CreateProfile";
 import EditProfile from "./components/edit-profile/EditProfile";
 import AddBookToRead from "./components/edit-profile/AddBookToRead";
+import AddBookRead from "./components/edit-profile/AddBookRead";
 
 //Check for token
 if (localStorage.jwtToken) {
@@ -68,6 +69,13 @@ class App extends Component {
                   exact
                   path="/add-bookstoread"
                   component={AddBookToRead}
+                />
+              </Switch>
+              <Switch>
+                <PrivateRoute
+                  exact
+                  path="/add-booksread"
+                  component={AddBookRead}
                 />
               </Switch>
               <Switch>

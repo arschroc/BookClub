@@ -25,16 +25,13 @@ const ProfileSchema = new Schema({
         required: true
       },
       publishdate: {
-        type: Date,
-        required: true
+        type: Date
       },
       averagerating: {
-        type: Number,
-        required: true
+        type: Number
       },
       thumbnail: {
-        type: String,
-        required: true
+        type: String
       },
       link: {
         type: String,
@@ -53,16 +50,13 @@ const ProfileSchema = new Schema({
         required: true
       },
       publishdate: {
-        type: Date,
-        required: true
+        type: Date
       },
       averagerating: {
-        type: Number,
-        required: true
+        type: Number
       },
       thumbnail: {
-        type: String,
-        required: true
+        type: String
       },
       link: {
         type: String,

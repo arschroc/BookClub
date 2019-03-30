@@ -12,7 +12,7 @@ const ProfileActions = () => {
         <i className="fas fa-bookmark text-info mr-1" />
         Add Book to Wishlist
       </Link>
-      <Link to="/add-bookread" className="btn btn-light">
+      <Link to="/add-booksread" className="btn btn-light">
         <i className="fas fa-book text-info mr-1" />
         Add Book Read
       </Link>

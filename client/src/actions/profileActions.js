@@ -36,10 +36,46 @@ export const createProfile = (profileData, history) => dispatch => {
     });
 };
 
+//Add book to read
+export const addBookToRead = bookData => dispatch => {
+  axios
+    .post("/api/profile/bookstoread", bookData)
+    .then(res =>
+      dispatch({
+        type: GET_PROFILE,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
 //Delete book to read
 export const deleteBookToRead = id => dispatch => {
   axios
     .delete(`/api/profile/bookstoread/${id}`)
+    .then(res =>
+      dispatch({
+        type: GET_PROFILE,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
+//Add book  read
+export const addBookRead = bookData => dispatch => {
+  axios
+    .post("/api/profile/booksread", bookData)
     .then(res =>
       dispatch({
         type: GET_PROFILE,
@@ -70,6 +106,34 @@ export const deleteBookRead = id => dispatch => {
         payload: err.response.data
       })
     );
+};
+
+//read book action
+export const readBook = (id, bookData) => dispatch => {
+  axios
+    .delete(`/api/profile/bookstoread/${id}`)
+    .then(res => {
+      axios
+        .post("/api/profile/booksread", bookData)
+        .then(res => {
+          dispatch({
+            type: GET_PROFILE,
+            payload: res.data
+          });
+        })
+        .catch(err => {
+          dispatch({
+            type: GET_ERRORS,
+            payload: err.response.data
+          });
+        });
+    })
+    .catch(err => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
+    });
 };
 
 // Profile loading

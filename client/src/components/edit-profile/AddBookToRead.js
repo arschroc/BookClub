@@ -7,6 +7,7 @@ import { API_BASE_URL, defaultOptions } from "../../utils/google-books-search";
 import isMobileDevice from "../common/isMobileDevice";
 import isEmpty from "../../validation/is-empty";
 import Spinner from "../common/Spinner";
+import { addBookToRead } from "../../actions/profileActions";
 var querystring = require("querystring");
 
 class AddBookToRead extends Component {
@@ -75,6 +76,16 @@ class AddBookToRead extends Component {
       bookAdded: index
     });
     //TODO call add book action
+    var book = this.state.books[index].volumeInfo;
+    const bookData = {
+      title: book.title,
+      author: book.authors[0],
+      averagerating: book.averageRating,
+      thumbnail: book.imageLinks.smallThumbnail,
+      link: book.infoLink
+    };
+
+    this.props.addBookToRead(bookData);
   }
   onSubmit(e) {
     e.preventDefault();
@@ -199,7 +210,8 @@ class AddBookToRead extends Component {
 
 AddBookToRead.propTypes = {
   profile: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired
+  errors: PropTypes.object.isRequired,
+  addBookToRead: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -207,4 +219,7 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-export default connect(mapStateToProps)(AddBookToRead);
+export default connect(
+  mapStateToProps,
+  { addBookToRead }
+)(AddBookToRead);

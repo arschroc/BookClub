@@ -1,7 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { deleteBookToRead } from "../../actions/profileActions";
+import {
+  deleteBookToRead,
+  addBookRead,
+  readBook
+} from "../../actions/profileActions";
 import isMobileDevice from "../common/isMobileDevice";
 
 class BooksToRead extends Component {
@@ -9,10 +13,22 @@ class BooksToRead extends Component {
     this.props.deleteBookToRead(id);
   }
   onReadClick(id) {
-    console.log(id);
+    //var book = this.
+
+    const books = this.props.profile.profile.bookstoread.filter(
+      book => book._id === id
+    );
+
+    const book = {
+      author: books[0].author,
+      link: books[0].link,
+      thumbnail: books[0].thumbnail,
+      title: books[0].title
+    };
+
+    this.props.readBook(id, book);
   }
   render() {
-    console.log(isMobileDevice());
     let booksToRead;
 
     if (isMobileDevice()) {
@@ -38,13 +54,13 @@ class BooksToRead extends Component {
     } else {
       booksToRead = this.props.bookstoread.map(book => (
         <tr key={book._id}>
-          <td>{book.title}</td>
-          <td>{book.author}</td>
           <td>
             <a href={book.link} target="_blank" rel="noopener noreferrer">
-              {book.link}
+              {book.title}
             </a>
           </td>
+          <td>{book.author}</td>
+
           <td>
             <button
               onClick={this.onReadClick.bind(this, book._id)}
@@ -77,7 +93,6 @@ class BooksToRead extends Component {
               <tr>
                 <th>Title</th>
                 <th>Author</th>
-                <th>Link</th>
                 <th />
               </tr>
             )}
@@ -91,10 +106,17 @@ class BooksToRead extends Component {
 }
 
 BooksToRead.propTypes = {
-  deleteBookToRead: PropTypes.func.isRequired
+  deleteBookToRead: PropTypes.func.isRequired,
+  addBookRead: PropTypes.func.isRequired,
+  profile: PropTypes.object.isRequired,
+  readBook: PropTypes.func.isRequired
 };
 
+const mapStateToProps = state => ({
+  profile: state.profile
+});
+
 export default connect(
-  null,
-  { deleteBookToRead }
+  mapStateToProps,
+  { deleteBookToRead, addBookRead, readBook }
 )(BooksToRead);

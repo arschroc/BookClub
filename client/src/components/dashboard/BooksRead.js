@@ -9,7 +9,6 @@ class BooksRead extends Component {
     this.props.deleteBookRead(id);
   }
   render() {
-    console.log(isMobileDevice());
     let booksRead;
 
     if (isMobileDevice()) {
@@ -29,13 +28,13 @@ class BooksRead extends Component {
     } else {
       booksRead = this.props.booksread.map(book => (
         <tr key={book._id}>
-          <td>{book.title}</td>
-          <td>{book.author}</td>
           <td>
             <a href={book.link} target="_blank" rel="noopener noreferrer">
-              {book.link}
+              {book.title}
             </a>
           </td>
+          <td>{book.author}</td>
+
           <td>
             <button
               onClick={this.onDeleteClick.bind(this, book._id)}
@@ -62,7 +61,6 @@ class BooksRead extends Component {
               <tr>
                 <th>Title</th>
                 <th>Author</th>
-                <th>Link</th>
                 <th />
               </tr>
             )}
