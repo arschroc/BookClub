@@ -19,6 +19,7 @@ import CreateProfile from "./components/create-profile/CreateProfile";
 import EditProfile from "./components/edit-profile/EditProfile";
 import AddBookToRead from "./components/edit-profile/AddBookToRead";
 import AddBookRead from "./components/edit-profile/AddBookRead";
+import Profile from "./components/profile/Profile";
 
 //Check for token
 if (localStorage.jwtToken) {
@@ -84,6 +85,7 @@ class App extends Component {
               <Switch>
                 <PrivateRoute exact path="/post/:id" component={Post} />
               </Switch>
+              <Route exact path="/profile/:handle" component={Profile} />
             </div>
             <Footer />
           </div>
