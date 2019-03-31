@@ -117,6 +117,7 @@ router.get("/handle/:handle", (req, res) => {
   const errors = {};
 
   Profile.findOne({ handle: req.params.handle }) //grabs by handle
+    .populate("user", ["name", "avatar"])
     .then(profile => {
       //Check if no profile
       if (!profile) {

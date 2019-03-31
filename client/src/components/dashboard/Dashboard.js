@@ -32,11 +32,20 @@ class Dashboard extends Component {
         </div>
       );
     } else {
-      //TODO put profile here
       dashboardContent = (
         <div>
           <p className="lead text-muted">
-            Welcome <Link to={`/profile/${profile.handle}`}>{user.name}</Link>
+            Welcome{" "}
+            <Link
+              to={{
+                pathname: `/profile/${profile.handle}`,
+                state: {
+                  currentUser: true
+                }
+              }}
+            >
+              {user.name}
+            </Link>
           </p>
           <ProfileActions />
           <BooksToRead bookstoread={profile.bookstoread} />
