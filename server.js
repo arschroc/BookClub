@@ -27,7 +27,7 @@ mongoose
 mongoose.set("useFindAndModify", false);
 
 //Basic setup test route
-app.get("/", (req, res) => res.send("Hello World"));
+//app.get("/", (req, res) => res.send("Hello World"));
 
 //Passport middleware
 app.use(passport.initialize());
