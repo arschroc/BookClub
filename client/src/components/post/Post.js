@@ -13,6 +13,13 @@ class Post extends Component {
     this.props.getPost(this.props.match.params.id);
   }
 
+  //Check for post that is not found
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.post.post === null && this.props.post.loading) {
+      this.props.history.push("/not-found");
+    }
+  }
+
   render() {
     const { post, loading } = this.props.post;
     let postContent;

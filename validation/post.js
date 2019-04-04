@@ -8,7 +8,7 @@
  * @author Aaron Schrock
  *
  * Created at     : 2019-03-15
- * Last modified  : 2019-03-19 13:26:47
+ * Last modified  : 2019-04-04 10:43:38
  */
 const isEmpty = require("./is-empty");
 

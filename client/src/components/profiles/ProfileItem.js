@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import isEmpty from "../../validation/is-empty";
 import { Link } from "react-router-dom";
 
 class ProfileItem extends Component {
@@ -11,7 +10,13 @@ class ProfileItem extends Component {
       <div className="card card-body bg-light mb-3">
         <div className="row">
           <div className="col-2">
-            <img src={profile.user.avatar} alt="" className="rounded-circle" />
+            <Link to={`/profile/${profile.handle}`}>
+              <img
+                src={profile.user.avatar}
+                alt=""
+                className="rounded-circle"
+              />
+            </Link>
           </div>
           <div className="col-lg-6 col-md5 col-8">
             <h3>{profile.user.name}</h3>
@@ -21,7 +26,6 @@ class ProfileItem extends Component {
           </div>
           <div className="col-md-4 d-none d-md-block">
             <h4 className="text-center">Latest Book Read</h4>
-            {console.log(profile.booksread[0])}
             {profile.booksread.length !== 0 ? (
               <div className="booksread">
                 <h6 className="text-center">{profile.booksread[0].title}</h6>{" "}

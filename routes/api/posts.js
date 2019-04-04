@@ -49,14 +49,29 @@ router.post(
       return res.status(400).json(errors);
     }
 
-    const newPost = new Post({
-      text: req.body.text,
-      name: req.body.name,
-      avatar: req.body.avatar,
-      user: req.user.id
-    });
+    Profile.findOne({ user: req.user.id })
+      .then(profile => {
+        if (profile === null) {
+          return res.status(401).json({
+            text: "User must create a profile before they can post"
+          });
+        } else {
+          const newPost = new Post({
+            text: req.body.text,
+            name: req.body.name,
+            avatar: req.body.avatar,
+            user: req.user.id,
+            handle: profile.handle
+          });
 
-    newPost.save().then(post => res.json(post));
+          newPost.save().then(post => res.json(post));
+        }
+      })
+      .catch(err => {
+        return res.status(401).json({
+          text: "User must create a profile before they can post"
+        });
+      });
   }
 );
 

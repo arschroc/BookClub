@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
-import { addPost } from "../../actions/postActions";
+import { addPost, clearErrors } from "../../actions/postActions";
+import { getCurrentProfile } from "../../actions/profileActions";
 
 class PostForm extends Component {
   constructor(props) {
@@ -15,6 +16,11 @@ class PostForm extends Component {
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.getCurrentProfile();
+    this.props.clearErrors();
   }
 
   componentWillReceiveProps(newProps) {
@@ -72,16 +78,20 @@ class PostForm extends Component {
 
 PostForm.propTypes = {
   addPost: PropTypes.func.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired,
+  clearErrors: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired
+  errors: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
   errors: state.errors,
-  auth: state.auth
+  auth: state.auth,
+  profile: state.profile
 });
 
 export default connect(
   mapStateToProps,
-  { addPost }
+  { addPost, clearErrors, getCurrentProfile }
 )(PostForm);

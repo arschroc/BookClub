@@ -21,6 +21,7 @@ import AddBookToRead from "./components/edit-profile/AddBookToRead";
 import AddBookRead from "./components/edit-profile/AddBookRead";
 import Profile from "./components/profile/Profile";
 import Profiles from "./components/profiles/Profiles";
+import NotFound from "./components/not-found/NotFound";
 
 //Check for token
 if (localStorage.jwtToken) {
@@ -88,6 +89,7 @@ class App extends Component {
               </Switch>
               <Route exact path="/profile/:handle" component={Profile} />
               <Route exact path="/profiles" component={Profiles} />
+              <Route exact path="/not-found" component={NotFound} />
             </div>
             <Footer />
           </div>

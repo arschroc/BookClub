@@ -38,10 +38,7 @@ class Dashboard extends Component {
             Welcome{" "}
             <Link
               to={{
-                pathname: `/profile/${profile.handle}`,
-                state: {
-                  currentUser: true
-                }
+                pathname: `/profile/${profile.handle}`
               }}
             >
               {user.name}
