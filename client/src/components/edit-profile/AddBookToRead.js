@@ -138,9 +138,9 @@ class AddBookToRead extends Component {
             </a>
           </td>
           <td>
-            {book.volumeInfo.authors.length > 0
+            {book.volumeInfo.authors
               ? book.volumeInfo.authors[0]
-              : null}
+              : "Author Unkown"}
           </td>
           <td>
             <button
