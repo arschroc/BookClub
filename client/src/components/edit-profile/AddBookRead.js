@@ -137,7 +137,11 @@ class AddBookRead extends Component {
               {book.volumeInfo.title}
             </a>
           </td>
-          <td>{book.volumeInfo.authors[0]}</td>
+          <td>
+            {book.volumeInfo.authors
+              ? book.volumeInfo.authors[0]
+              : "Author Unkown"}
+          </td>
           <td>
             <button
               onClick={this.onAddBookClick.bind(this, index)}
