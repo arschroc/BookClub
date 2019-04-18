@@ -10,4 +10,4 @@ Social network for book lovers. Allows users to create profiles, search for book
 * [Redux](https://redux.js.org/) 
 * [Express](https://expressjs.com/) 
 * [Heroku](https://www.heroku.com/) 
-* [Google Books Apis](https://developers.google.com/books/) 
+* [Google Books APIs](https://developers.google.com/books/) 
