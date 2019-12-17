@@ -20,7 +20,7 @@ class Landing extends Component {
                 <p className="lead">
                   {" "}
                   Keep track of your favorite books, create your reading
-                  wishlest and engage other like-minded readers
+                  wishlist and engage other like-minded readers
                 </p>
                 <hr />
                 <Link to="/register" className="btn btn-lg btn-info mr-2">
